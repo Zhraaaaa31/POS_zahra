@@ -69,10 +69,8 @@
 
 <div class="card login-card p-3 position-absolute top-50 start-50">
   <div class="card-body">
-    <!-- Header/Logo Area -->
     <div class="text-center mb-4">
       <h4 class="fw-bold text-dark mb-1">Login POS</h4>
-      <p class="text-muted small">Masukkan kredensial Anda untuk masuk</p>
     </div>
 
     <form action="{{ route('auth') }}" method="POST">

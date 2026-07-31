@@ -1,5 +1,7 @@
 @csrf
 
+<div class="container">
+    <div class="card border-0 shadow-sm p-4 ">
 <div class="mb-3">
     <label class="form-label">Nama</label>
     <input type="text" 
@@ -21,7 +23,7 @@
            value="{{ old('email', $user->email ?? '') }}">
     @error('email')
     <div class="invalid-feedback">
-        {{ $message }}
+        {{ $message }} 
     </div>
     @enderror
 </div>
@@ -59,3 +61,5 @@
 
 <button type="submit" class="btn btn-success">Simpan</button>
 <a href="{{ route('admin.users') }}" class="btn btn-secondary">Kembali</a>
+</div>
+</div>
