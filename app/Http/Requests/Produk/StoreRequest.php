@@ -23,8 +23,9 @@ class StoreRequest extends FormRequest
    public function rules(): array
     {
         return [
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,JPG,JPEG,PNG|max:2048',
             'name' => 'required|string|max:255',
+            'jenis_id' => 'required|exists:jenis,id',
             'purchase_price' => 'required|integer|min:0',
             'selling_price' => 'required|integer|min:0',
             'stock' => 'required|integer|min:0',
@@ -45,6 +46,7 @@ class StoreRequest extends FormRequest
             'selling_price.integer' => 'selling price harus diisi bilangan bulat.',
             'stock.required' => 'Stock wajib diisi.',
             'stock.integer' => 'Stock harus diisi angka.',
+            'stock.min' => 'Stok minimal bernilai 0.',
         ];
     }
 }

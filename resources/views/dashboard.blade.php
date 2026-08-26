@@ -16,7 +16,8 @@
             <h1 class="h3 fw-bold mb-1">Dashboard</h1>
             <h5 class="text-muted fw-normal fs-6 mb-0">
                 Ringkasan Hari Ini 
-                <span class="badge bg-primary bg-opacity-10 text-primary ms-1">
+                <span class="badge bg-primary bg-opacity-10 text-primary ms-1 px-2 py-1 align-middle">
+                    <i class="bi bi-calendar3 me-1"></i>
                     ({{ $tanggalHariIni->translatedFormat('l, d F Y') }})
                 </span>
             </h5>
@@ -25,55 +26,85 @@
 
     <div class="row g-4">
         @can('viewAny', App\Models\User::class)
-        <!-- Today's Sale di Tengah -->
-        <div class="col-md-12 text-center">
+        <div class="col-md-12 mt-4 text-center">
             <h4 class="fw-bold text-secondary mb-0">Today's Sale</h4>
         </div>
+
         <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
-                    Total Nilai Penjualan Hari ini
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title fw-bold text-primary mb-0">Rp {{ number_format($ringkasan['total_penjualan']) }}</h3>
+            <div class="card card-stat shadow-sm h-100 bg-white">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
+                                Total Nilai Penjualan Hari Ini
+                            </span>
+                            <h3 class="fw-bold text-dark mb-0">Rp {{ number_format($ringkasan['total_penjualan']) }}</h3>
+                        </div>
+                        <div class="icon-shape text-primary fs-4">
+                            <i class="bi bi-cash-stack"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+       
         <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
-                    Jumlah Transaksi Hari Ini
+            <div class="card card-stat shadow-sm h-100 bg-white">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
+                                Jumlah Transaksi Hari Ini
+                            </span>
+                            <h3 class="fw-bold text-dark mb-0">{{ $ringkasan['total_transaksi'] }}</h3>
+                        </div>
+                        <div class="icon-shape bg-opacity-10 text-primary fs-4">
+                            <i class="bi bi-card-text"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h3 class="card-title fw-bold text-dark mb-0">{{ $ringkasan['total_transaksi'] }} <small class="fs-6 text-muted fw-normal">Transaksi</small></h3>
-                </div>
-            </div>    
+            </div>
         </div>
-
-        <!-- Cash & Payment Status di Tengah -->
+        
         <div class="col-md-12 mt-4 text-center">
             <h4 class="fw-bold text-secondary mb-0">Cash & Payment Status</h4>
         </div>
+
         <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
-                    Total Pembayaran Tunai
+            <div class="card card-stat shadow-sm h-100 bg-white">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                             <span class="fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
+                                Total Pembayaran Tunai
+                            </span>  
+                            <h3 class="fw-bold text-dark mb-0">{{ $ringkasan['total_transaksi'] }}</h3>
+                        </div>
+                        <div class="icon-shape bg-opacity-10 text-primary fs-4">
+                           <i class="bi bi-wallet2"></i>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <h3 class="card-title fw-bold text-success mb-0">Rp {{ number_format($ringkasan['total_transaksi']) }}</h3>
-                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card card-stat shadow-sm h-100 bg-white">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
+                                Total Pembayaran Non-Tunai
+                            </span>
+                            <h3 class="fw-bold text-dark mb-0">Rp {{ number_format($ringkasan['total_non_tunai']) }}</h3>
+                        </div>
+                        <div class="icon-shape bg-opacity-10 text-primary fs-4">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                    </div>
             </div>    
         </div>   
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-header bg-white fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
-                    Total Pembayaran Non-Tunai
-                </div>
-                <div class="card-body">
-                    <h3 class="card-title fw-bold text-warning mb-0">Rp {{ number_format($ringkasan['total_non_tunai']) }}</h3>
-                </div>
-            </div>    
-        </div>   
+        </div>
         @endcan
 
         <!-- Critical Inventory Status di Tengah -->
@@ -84,12 +115,12 @@
         <div class="col-md-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="fw-bold text-warning mb-3">Daftar Produk Stok Rendah</h5>
+                    <h5 class="fw-bold mb-3">Daftar Produk Stok Rendah</h5>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">No</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col" class="text-center">Stok</th>
                                 </tr>
@@ -123,12 +154,12 @@
         <div class="col-md-6">
             <div class="card border-0 shadow-sm h-100">
                 <div class="card-body">
-                    <h5 class="fw-bold text-danger mb-3">Produk Habis Stok</h5>
+                    <h5 class="fw-bold mb-3">Produk Habis Stok</h5>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col">No</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col" class="text-center">Stok</th>
                                 </tr>

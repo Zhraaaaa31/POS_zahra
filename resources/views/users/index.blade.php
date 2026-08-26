@@ -9,69 +9,96 @@
 
 @include('layouts.navbar')
 
-<div class="container">
-    <div class="d-felx justify-content-betweenn align-items-canter mb-4 pb-2 border-button">
-                <!-- <h1>Halaman Users</h1>
-        <a href="{{route('admin.users.create')}}" class="btn btn-primary mb-3">Create</a>
+<div class="container my-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
+        <div>
+            <h1 class="h3 fw-bold text-dark mb-1">Users</h1>
+           
+        </div>
+        <div>
+            <a href="{{ route('admin.users.create') }}" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm px-3">
+                <span> + Create User</span>
+            </a>
+        </div>
+    </div>
 
-        <form action="{{route('admin.users')}}" method="GET" class="mb-3">
-            <div class="input-group">
-                <input type="text" name="search" value="{{ request('search')}}" class="form-control" placeholder="Search username or email">
-                <button class="btn btn-outline-secondary" type="submit">Search</button>
-            </div> -->
-            <div class="d-flex justify-content-between align-items-center mt-4 mb-3">
-            <h1 class="h3 fw-bold mb-1">Halaman Users</h1>
-            <a href="{{route('admin.users.create')}}" class="btn btn-primary mb-3">Create</a>
-            </div>
-                <form action="{{route('admin.users')}}" method="GET" class="mb-3">
-                    <div class="input-group">
-                        <input type="text" name="search" value="{{ request('search')}}" class="form-control" placeholder="Search username or email">
-                        <button class="btn btn-outline-secondary" type="submit">Search</button>
-                    </div>
-                </form>
-</div>
-<table class="table border shadow-sm table-hover align-middle">
-    <thead>
-        <tr>
-            <th scope="col">No</th>
-            <th scope="col">Name</th>
-            <th scope="col">Email</th>
-            <th scope="col">Role</th>
-            <th scope="col" class="text-center">Aksi</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($users as $user)
-        <tr>
-            <td>{{ $users->firstItem() + $loop->index }}</td>
-            <td>{{ $user->name }}</td>
-            <td>{{ $user->email }}</td>
-            <td>
-                <span class="badge bg-primary">{{ $user->role->name ?? '-' }}
-
-                </span>
-            </td>
-            <td class="text-center">
-                <a href="{{ route('admin.users.edit', $user)}}" class="btn btn-sm btn-warning">
-                    Edit Akun
-                </a>
-                ||
-               <form action="{{route('admin.users.destroy', $user)}}" method="POST" class="d-inline">
-                    @csrf 
-                    @method('DELETE')
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus user ini?')">
-                        Hapus
+    <!-- Filter & Form Pencarian -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body ">
+            <form action="{{ route('admin.users') }}" method="GET">
+                <div class="input-group">
+                    <input type="text" 
+                           name="search" 
+                           value="{{ request('search') }}" 
+                           class="form-control border-end-0" 
+                           placeholder="Cari berdasarkan nama atau email...">
+                    <button class="btn btn-primary px-4" type="submit">
+                        Cari
                     </button>
-                </form>
-                </form>
-            </td>
-        </tr>
-        @endforeach 
-    </tbody>
-</table>
-</div>
+                    @if(request('search'))
+                        <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary">Reset</a>
+                    @endif
+                </div>
+            </form>
+        </div>
+    </div>
 
+    <!-- Tabel Data Users -->
+    <div class="card border-0 shadow-sm overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light text-secondary">
+                    <tr>
+                        <th scope="col" class="ps-4" style="width: 5%;">No</th>
+                        <th scope="col" style="width: 25%;">Nama</th>
+                        <th scope="col" style="width: 30%;">Email</th>
+                        <th scope="col" style="width: 20%;">Role</th>
+                        <th scope="col" class="text-center pe-4" style="width: 20%;">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($users as $user)
+                    <tr>
+                        <td class="ps-4 text-muted fw-medium">
+                            {{ $users->firstItem() + $loop->index }}
+                        </td>
+                        <td class="fw-semibold text-dark">
+                            {{ $user->name }}
+                        </td>
+                        <td class="text-secondary">
+                            {{ $user->email }}
+                        </td>
+                        <td>
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                {{ $user->role->name ?? '-' }}
+                            </span>
+                        </td>
+                        <td class="text-center pe-4">
+                            <div class="d-inline-flex align-items-center gap-1">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-warning">
+                                    Edit
+                                </a>
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
+                                    @csrf 
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin hapus user ini?')">
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            Data user tidak ditemukan.
+                        </td>
+                    </tr>
+                    @endforelse 
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @endsection
-
-

@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Edit Produk')
+@section('title', 'Edit Jenis')
 
 @section('content')
-<h4>Edit Produk</h4>
 
-<form action="{{ route('produk.update', $produk) }}" 
-method="POST" 
-enctype="multipart/form-data">
+@include('layouts.navbar')
+
+<h4 class="container mt-4">Edit Jenis</h4>
+<form action="{{ route('produk.update', $produk) }}" method="POST" enctype="multipart/form-data">
     @method('PUT')
-    @include('Produk._form')
+    @include('produk._form')
 </form>
 @endsection

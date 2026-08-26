@@ -18,7 +18,14 @@ class PenjualanPolicy
 
     public function view(User $user, Penjualan $penjualan): bool
     {
-         return $user->role->name === 'admin'
-         && $penjualan->status === 'OPEN';
+        //  return $user->role->name === 'admin'
+        //  && $penjualan->status === 'OPEN';
+        // Admin bisa lihat semua transaksi
+    if ($user->role->name === 'admin') {
+        return true;
+    }
+
+    // Kasir hanya bisa lihat transaksi miliknya sendiri
+    return $user->id === $penjualan->user_id;
     }
 }

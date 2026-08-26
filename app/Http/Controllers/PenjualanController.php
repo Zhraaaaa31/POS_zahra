@@ -86,9 +86,13 @@ return view('penjualan.pos', compact('sale', 'products', 'mode'));
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Penjualan $penjualan)
     {
-        //
+        $this->authorize('view', $penjualan);
+
+        $penjualan->load(['user', 'itemPenjualan.produk.jenis']);
+
+        return view('penjualan.show', compact('penjualan'));
     }
 
     /**
