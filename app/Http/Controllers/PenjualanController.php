@@ -174,4 +174,10 @@ DB::transaction(function () use ($penjualan) {
         ->route('penjualan.index')
         ->with('success', 'Transaksi berhasil dibatalkan');
 }
+public function print(int $id)
+{
+    $sale = Penjualan::with('itemPenjualan.produk')->findOrFail($id);
+
+    return view('penjualan.print', compact('sale'));
+}
 }

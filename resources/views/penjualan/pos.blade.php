@@ -109,64 +109,51 @@
 
         {{-- =================== KERANJANG =================== --}}
         <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="table-light text-secondary">
-                            <tr>
-                                <th scope="col" class="ps-3">Produk</th>
-                                <th scope="col">Harga</th>
-                                <th scope="col" style="width: 18%;">Qty</th>
-                                <th scope="col">Subtotal</th>
-                                <th scope="col" class="text-center pe-3">Aksi</th>
-                            </tr>
-                        </thead>
+    <div class="card border shadow-sm rounded-3 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover align-middle mb-0">
+                <thead class="table-light text-secondary">
+                    <tr>
+                        <th scope="col" class="ps-3 border-end">Produk</th>
+                        <th scope="col" class="border-end">Harga</th>
+                        <th scope="col" class="border-end text-center" style="width: 18%;">Qty</th>
+                        <th scope="col" class="border-end">Subtotal</th>
+                        <th scope="col" class="text-center pe-3">Aksi</th>
+                    </tr>
+                </thead>
 
-                        <tbody>
-                            @forelse($sale->itemPenjualan as $item)
-                            <tr>
-                                <td class="ps-3 fw-semibold text-dark">{{ $item->produk->nama }}</td>
-                                <td class="text-muted">Rp {{ number_format($item->produk->harga_jual, 0, ',', '.') }}</td>
-                                <!-- <td>
-                                    <form method="POST" action="{{ route('itempenjualan.update', $item->id) }}">
-                                        @csrf
-                                        @method('PUT')
-                                        <input
-                                            type="number"
-                                            name="quantity"
-                                            value="{{ $item->kuantitas }}"
-                                            min="1"
-                                            class="form-control form-control-sm text-center">
-                                    </form>
-                                </td> -->
-                                <td class="text-center fw-semibold">
-                                    {{ $item->kuantitas }}
-                                </td>
-                                <td class="fw-semibold text-success">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                                <td class="text-center pe-3">
-                                    @can('delete', $item)
-                                    <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
-                                        @csrf 
-                                        @method('DELETE')
-                                        <button class="btn btn-danger btn-sm">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                    @endcan
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center py-4 text-muted">
-                                    <p class="mb-0 fs-6 fw-semibold text-secondary">Keranjang kosong</p>
-                                    <small>Belum ada produk yang ditambahkan ke keranjang.</small>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-
+                <tbody>
+                    @forelse($sale->itemPenjualan as $item)
+                    <tr>
+                        <td class="ps-3 fw-semibold text-dark border-end">{{ $item->produk->nama }}</td>
+                        <td class="text-muted border-end">Rp {{ number_format($item->produk->harga_jual, 0, ',', '.') }}</td>
+                        <td class="text-center fw-semibold border-end">
+                            {{ $item->kuantitas }}
+                        </td>
+                        <td class="fw-semibold text-success border-end">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                        <td class="text-center pe-3">
+                            @can('delete', $item)
+                            <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
+                                @csrf 
+                                @method('DELETE')
+                                <button class="btn btn-danger btn-sm">
+                                    Hapus
+                                </button>
+                            </form>
+                            @endcan
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            <p class="mb-0 fs-6 fw-semibold text-secondary">Keranjang kosong</p>
+                            <small>Belum ada produk yang ditambahkan ke keranjang.</small>
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
                 <!-- Footer Keranjang & Checkout -->
                 <div class="card-footer bg-light border-top p-3">
                     <div class="d-flex justify-content-between align-items-center mb-3">

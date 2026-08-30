@@ -59,7 +59,7 @@
             <table class="table table-hover align-middle mb-0">
                 <thead class="table-light text-secondary">
                     <tr>
-                        <th scope="col" class="ps-4" style="width: 10%;">#</th>
+                        <th scope="col" class="ps-4" style="width: 10%;">No</th>
                         <th scope="col" style="width: 70%;">Nama Jenis</th>
                         <th scope="col" class="text-center pe-4" style="width: 20%;">Aksi</th>
                     </tr>

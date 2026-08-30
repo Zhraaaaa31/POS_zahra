@@ -24,4 +24,8 @@ class Penjualan extends Model
     {
         return $this->hasMany(ItemPenjualan::class, 'penjualan_id');
     }
+    public function details()
+    {
+        return $this->hasMany(ItemPenjualan::class, 'penjualan_id');
+    }
 }

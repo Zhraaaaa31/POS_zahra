@@ -133,6 +133,11 @@
                         </tfoot>
                     </table>
                 </div>
+                <div class="card-footer bg-white border-top py-3 px-4 text-end">
+                    <a href="{{ route('penjualan.print', $penjualan) }}" target="_blank" class="btn btn-outline-primary d-inline-flex align-items-center gap-2">
+                        <i class="bi bi-printer"></i>
+                        <span>Cetak Struk</span>
+                    </a>
             </div>
         </div>
 
