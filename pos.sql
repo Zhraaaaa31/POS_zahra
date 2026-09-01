@@ -87,13 +87,16 @@ CREATE TABLE IF NOT EXISTS `jenis` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table pos.jenis: ~3 rows (approximately)
+-- Dumping data for table pos.jenis: ~5 rows (approximately)
 INSERT INTO `jenis` (`id`, `nama_jenis`, `created_at`, `updated_at`) VALUES
 	(1, 'Hijab', '2026-08-28 00:00:30', '2026-08-28 00:00:30'),
-	(2, 'sepatu', '2026-08-29 00:10:26', '2026-08-29 00:10:26'),
-	(3, 'cardigan', '2026-08-29 00:20:29', '2026-08-29 00:20:29');
+	(2, 'Sepatu', '2026-08-29 00:10:26', '2026-08-31 00:07:32'),
+	(3, 'Cardigan', '2026-08-29 00:20:29', '2026-08-31 00:07:22'),
+	(4, 'Baju', '2026-08-31 00:00:31', '2026-08-31 00:00:31'),
+	(5, 'Rok', '2026-08-31 00:01:42', '2026-08-31 00:01:42'),
+	(6, 'Tas', '2026-08-31 18:47:44', '2026-08-31 18:47:44');
 
 -- Dumping structure for table pos.job_batches
 CREATE TABLE IF NOT EXISTS `job_batches` (
@@ -168,14 +171,15 @@ CREATE TABLE IF NOT EXISTS `penjualan` (
   PRIMARY KEY (`id`),
   KEY `penjualan_user_id_foreign` (`user_id`),
   CONSTRAINT `penjualan_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table pos.penjualan: ~4 rows (approximately)
+-- Dumping data for table pos.penjualan: ~5 rows (approximately)
 INSERT INTO `penjualan` (`id`, `user_id`, `total_pembayaran`, `metode_pembayaran`, `status`, `created_at`, `updated_at`) VALUES
 	(2, 1, 2000, 'CASH', 'COMPLETED', '2026-08-29 00:11:35', '2026-08-29 00:11:46'),
 	(3, 1, 9000, 'QRIS', 'COMPLETED', '2026-08-29 00:21:14', '2026-08-29 00:21:28'),
 	(5, 1, 15000, 'QRIS', 'COMPLETED', '2026-08-30 06:47:13', '2026-08-30 06:54:39'),
-	(7, 1, 18000, 'CASH', 'COMPLETED', '2026-08-30 07:09:33', '2026-08-30 07:09:55');
+	(7, 1, 18000, 'CASH', 'COMPLETED', '2026-08-30 07:09:33', '2026-08-30 07:09:55'),
+	(8, 1, 0, 'CASH', 'OPEN', '2026-08-30 07:27:25', '2026-08-30 07:27:25');
 
 -- Dumping structure for table pos.produk
 CREATE TABLE IF NOT EXISTS `produk` (
@@ -195,13 +199,18 @@ CREATE TABLE IF NOT EXISTS `produk` (
   KEY `produk_nama_index` (`nama`),
   CONSTRAINT `produk_jenis_id_foreign` FOREIGN KEY (`jenis_id`) REFERENCES `jenis` (`id`) ON DELETE CASCADE,
   CONSTRAINT `produk_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table pos.produk: ~3 rows (approximately)
+-- Dumping data for table pos.produk: ~8 rows (approximately)
 INSERT INTO `produk` (`id`, `user_id`, `jenis_id`, `foto`, `nama`, `harga_beli`, `harga_jual`, `stok`, `created_at`, `updated_at`) VALUES
-	(2, 1, 1, 'products/6BQ48tlVPGg2WY8qEd9GVqiX27s2ek2nZPfOn9Vg.jpg', 'HIjab Bergo', 1000, 2000, 10, '2026-08-28 00:01:10', '2026-08-30 06:54:31'),
-	(3, 1, 2, 'products/VGCYWotkpUXueIpeY7tdtpo1EE1hdIstFEyW7ZcW.jpg', 'Adidas Bali Tactile Steel Blue', 1000, 2000, 21, '2026-08-29 00:11:02', '2026-08-30 07:09:43'),
-	(4, 1, 3, 'products/aVso5QTBViddoFgbmIbPhKccS6HPebhS6sgeqMVA.jpg', 'cardigan rajut motif', 8000, 9000, 6, '2026-08-29 00:21:07', '2026-08-30 07:09:49');
+	(2, 1, 1, 'products/6BQ48tlVPGg2WY8qEd9GVqiX27s2ek2nZPfOn9Vg.jpg', 'HIjab Bergo', 35000, 50000, 10, '2026-08-28 00:01:10', '2026-08-31 00:12:02'),
+	(3, 1, 2, 'products/VGCYWotkpUXueIpeY7tdtpo1EE1hdIstFEyW7ZcW.jpg', 'Adidas Bali Tactile Steel Blue', 2000000, 2500000, 21, '2026-08-29 00:11:02', '2026-08-31 00:12:33'),
+	(4, 1, 3, 'products/aVso5QTBViddoFgbmIbPhKccS6HPebhS6sgeqMVA.jpg', 'cardigan rajut motif', 130000, 180000, 60, '2026-08-29 00:21:07', '2026-08-31 00:10:12'),
+	(5, 1, 5, 'products/pMKCvps7QnaGkE1hYu0CX62HxwF3pDH2RCtlsCui.jpg', 'Rok jaclyn skirt', 100000, 125000, 25, '2026-08-31 00:09:50', '2026-08-31 00:09:50'),
+	(6, 1, 1, 'products/wNUMuyFv4E7rH4Aq2ckDd3uvWqC1yVojiv8NTsd3.jpg', 'Viscose Pashmina Nour Shawl', 100000, 129000, 50, '2026-08-31 18:34:21', '2026-08-31 18:36:18'),
+	(7, 1, 2, 'products/woH3zvx6J7WQ9VOTBaK29627gm8a3qxItywxJoRq.jpg', 'Flatshoes Motif Tali Mutiara', 150000, 200000, 74, '2026-08-31 18:40:57', '2026-08-31 18:40:57'),
+	(8, 1, 3, 'products/nWqCIBhsXne82KUM2Tnk1LmQWGbwLdngZWlvH6hR.png', 'Soft Quilted Leather Juliet Shoulder Bag', 10000000, 12000000, 5, '2026-08-31 18:47:28', '2026-08-31 18:48:11'),
+	(9, 1, 4, 'products/WPLv915MIZTgM3gcEvUDMcOtC1IxfZIp0HQwYecZ.png', 'Stretchy Knitted T Shirt/Sweatshirt', 600000, 650000, 25, '2026-08-31 18:59:09', '2026-08-31 18:59:09');
 
 -- Dumping structure for table pos.roles
 CREATE TABLE IF NOT EXISTS `roles` (
@@ -232,10 +241,7 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 
 -- Dumping data for table pos.sessions: ~4 rows (approximately)
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-	('dIGreBwryVEjOz2GW6xppI5fdnflnoMJcAY9wYF7', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiOWpJWkpQQThMU3lWdmFEOUdCR0J0OVVsbzlCekxmQkt2eldOWGF3OSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9wZW5qdWFsYW4vMi9wcmludCI7czo1OiJyb3V0ZSI7czoxNToicGVuanVhbGFuLnByaW50Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1787990701),
-	('eWg91u0pASH9MLVhbSz7gXfzNtARuwJ57SpDFWa2', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiNFJtRFdBRjRhaGRaRG5UQ2tneFNmVXA3eU45eWtDdTd6dDVBVEZlTiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozMToiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2Rhc2hib2FyZCI7fXM6OToiX3ByZXZpb3VzIjthOjI6e3M6MzoidXJsIjtzOjM5OiJodHRwOi8vbG9jYWxob3N0OjgwMDAvcGVuanVhbGFuLzMvcHJpbnQiO3M6NToicm91dGUiO3M6MTU6InBlbmp1YWxhbi5wcmludCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1787988743),
-	('ogk7asGWVFI4phxqtqqBllKEiAPb4r1FkAyDa4sX', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiYUhaeTExRVQ4OUY2dFVHYzFlblVGYzF4ajFkVnZwOUNicDNvWDBHdyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9wZW5qdWFsYW4vNy9wcmludCI7czo1OiJyb3V0ZSI7czoxNToicGVuanVhbGFuLnByaW50Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1788099000),
-	('PKiUXzIQSthYWh1Uyq4wmhPNZegrTskGvxRE9g69', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiV21iTWtDQ0ZSVjVFZUlLVWI2RERkM24weXpNdzlNTTN3WWxSdk9nNSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MzM6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9wZW5qdWFsYW4vMiI7czo1OiJyb3V0ZSI7czoxNDoicGVuanVhbGFuLnNob3ciO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO30=', 1787987514);
+	('7IwCfN5mhDbT36b6rU5E3qXEn8nHEUm8fUtdWyKu', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoibHFFZ1MwRndpUW1lRUFxRjBmam9sN1d5SDVCUU1wQ1haZjJZaDUyQyI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjg6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9wcm9kdWsiO3M6NToicm91dGUiO3M6MTI6InByb2R1ay5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7fQ==', 1788227949);
 
 -- Dumping structure for table pos.users
 CREATE TABLE IF NOT EXISTS `users` (
