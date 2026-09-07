@@ -78,7 +78,7 @@
                              <span class="fw-bold border-0 pt-3 pb-0 text-muted fs-7 text-uppercase">
                                 Total Pembayaran Tunai
                             </span>  
-                            <h3 class="fw-bold text-dark mb-0">{{ $ringkasan['total_transaksi'] }}</h3>
+                            <h3 class="fw-bold text-dark mb-0">Rp {{ number_format($ringkasan['total_cash']) }}</h3>
                         </div>
                         <div class="icon-shape bg-opacity-10 text-primary fs-4">
                            <i class="bi bi-wallet2"></i>
