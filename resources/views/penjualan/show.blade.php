@@ -10,7 +10,7 @@
 
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
         <div>
-            <h1 class="h3 fw-bold text-dark mb-1">Detail Transaksi #{{ $penjualan->id }}</h1>
+            <h1 class="h3 fw-bold text-dark mb-1">Detail Transaksi {{ $penjualan->id }}</h1>
             <p class="text-muted mb-0 small">
                 {{ $penjualan->created_at->translatedFormat('d F Y, H:i') }}
             </p>
