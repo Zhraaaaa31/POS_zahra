@@ -101,13 +101,13 @@
                                 </span>
                             @endif
                         </td>
-                        <td class="text-center pe-4">
+                                                <td class="text-center pe-4">
                             <div class="d-inline-flex align-items-center gap-1">
                                <a href="{{ route('penjualan.show', $sale) }}" class="btn btn-sm btn-outline-primary">
                                     Detail
                                 </a>
 
-                                @can('view', $sale)
+                                @can('update', $sale)
                                 <a href="{{ route('penjualan.edit', $sale) }}" class="btn btn-sm btn-outline-warning">
                                     Edit
                                 </a>

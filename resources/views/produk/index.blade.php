@@ -32,7 +32,7 @@
                            name="search" 
                            value="{{ request('search') }}" 
                            class="form-control border-end-0" 
-                           placeholder="Cari berdasarkan nama produk...">
+                           placeholder="Cari berdasarkan nama produk atau jenis...">
                     <button class="btn btn-primary px-4" type="submit">
                         Cari
                     </button>

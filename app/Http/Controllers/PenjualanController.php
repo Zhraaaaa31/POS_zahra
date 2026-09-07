@@ -98,8 +98,10 @@ return view('penjualan.pos', compact('sale', 'products', 'mode'));
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Penjualan $penjualan)
+        public function edit(Penjualan $penjualan)
     {
+        $this->authorize('update', $penjualan);
+
         $sale = $penjualan;
 
         abort_if($sale->status === 'COMPLETED', 493);
@@ -111,40 +113,36 @@ return view('penjualan.pos', compact('sale', 'products', 'mode'));
         return view('penjualan.pos', compact('sale', 'products', 'mode'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-   public function update(Request $request, Penjualan $penjualan)
-        {
-            $request->validate([
-                'payment_method' => 'required|in:CASH,QRIS'
-            ]);
+    public function update(Request $request, Penjualan $penjualan)
+    {
+        $this->authorize('update', $penjualan);
 
-            if ($penjualan->status !== 'OPEN') {
-                return back()->with('errors', 'Transaksi sudah diproses');
-            }
+        $request->validate([
+            'payment_method' => 'required|in:CASH,QRIS'
+        ]);
 
-            if ($penjualan->itemPenjualan()->count() === 0) {
-                return back()->with('errors', 'Keranjang masih kosong');
-            }
-
-            DB::transaction(function () use ($penjualan, $request) {
-
-                // 🔄 Hitung ulang total (anti manipulasi)
-                $total = $penjualan->itemPenjualan()->sum('subtotal');
-
-                $penjualan->update([
-                    'metode_pembayaran' => $request->payment_method,
-                    'total_pembayaran'  => $total,
-                    'status'            => 'COMPLETED'
-                ]);
-            });
-
-            return redirect()
-                ->route('penjualan.index')
-                ->with('success', 'Transaksi berhasil diselesaikan');
+        if ($penjualan->status !== 'OPEN') {
+            return back()->with('errors', 'Transaksi sudah diproses');
         }
 
+        if ($penjualan->itemPenjualan()->count() === 0) {
+            return back()->with('errors', 'Keranjang masih kosong');
+        }
+
+        DB::transaction(function () use ($penjualan, $request) {
+            $total = $penjualan->itemPenjualan()->sum('subtotal');
+
+            $penjualan->update([
+                'metode_pembayaran' => $request->payment_method,
+                'total_pembayaran'  => $total,
+                'status'            => 'COMPLETED'
+            ]);
+        });
+
+        return redirect()
+            ->route('penjualan.index')
+            ->with('success', 'Transaksi berhasil diselesaikan');
+    }
     /**
      * Remove the specified resource from storage.
      */

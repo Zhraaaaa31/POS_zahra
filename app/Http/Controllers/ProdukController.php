@@ -15,22 +15,24 @@ use App\Models\Jenis;
 
 class ProdukController extends Controller
 {
-    public function index(RequestsSearchRequest $request) 
+       public function index(RequestsSearchRequest $request) 
     {
         $this->authorize('viewAny', Produk::class);
 
         $keyword = $request->input('search');
 
-        if($keyword) {
-            $products= Produk::when($keyword, function ($query) use ($keyword){
-                $query->where('nama', 'like', '%' .$keyword. '%');
+        $products = Produk::with('jenis')
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('nama', 'like', '%' . $keyword . '%')
+                      ->orWhereHas('jenis', function ($q2) use ($keyword) {
+                          $q2->where('nama_jenis', 'like', '%' . $keyword . '%');
+                      });
+                });
             })
-            ->orderBY('nama')
+            ->orderBy('nama')
             ->paginate(10)
             ->withQueryString();
-        } else {
-            $products = Produk::latest()->paginate(10)->withQueryString();
-        }
 
         return view('produk.index', compact('products'));
     }
