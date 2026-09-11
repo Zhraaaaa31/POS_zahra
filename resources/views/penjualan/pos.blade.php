@@ -164,7 +164,10 @@
 
                     <form method="POST"
                           action="{{ route('penjualan.update', $sale->id) }}"
-                          onsubmit="return confirm('Yakin ingin checkout?')">
+                          onsubmit="return confirm('Yakin ingin checkout?')"
+                          id="checkout_form"
+                          data-total-pembayaran="{{ $sale->itemPenjualan->sum('subtotal') }}"
+                          data-sale-id="{{ $sale->id }}">
                         @csrf
                         @method('PUT')
 
@@ -207,8 +210,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
-    const totalPembayaran = {{ $sale->itemPenjualan->sum('subtotal') }};
-    const saleId = {{ $sale->id }};
+    const checkoutForm = document.getElementById('checkout_form');
+    const totalPembayaran = parseInt(checkoutForm.dataset.totalPembayaran);
+    const saleId = parseInt(checkoutForm.dataset.saleId);
     let qrGenerated = false;
 
     function togglePaymentInput() {
