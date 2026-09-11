@@ -114,35 +114,43 @@ return view('penjualan.pos', compact('sale', 'products', 'mode'));
     }
 
     public function update(Request $request, Penjualan $penjualan)
-    {
-        $this->authorize('update', $penjualan);
+{
+    $this->authorize('update', $penjualan);
 
-        $request->validate([
-            'payment_method' => 'required|in:CASH,QRIS'
-        ]);
+    $request->validate([
+        'payment_method' => 'required|in:CASH,QRIS',
+        'uang_dibayar'   => 'required_if:payment_method,CASH|nullable|integer|min:0',
+    ]);
 
-        if ($penjualan->status !== 'OPEN') {
-            return back()->with('errors', 'Transaksi sudah diproses');
-        }
-
-        if ($penjualan->itemPenjualan()->count() === 0) {
-            return back()->with('errors', 'Keranjang masih kosong');
-        }
-
-        DB::transaction(function () use ($penjualan, $request) {
-            $total = $penjualan->itemPenjualan()->sum('subtotal');
-
-            $penjualan->update([
-                'metode_pembayaran' => $request->payment_method,
-                'total_pembayaran'  => $total,
-                'status'            => 'COMPLETED'
-            ]);
-        });
-
-        return redirect()
-            ->route('penjualan.index')
-            ->with('success', 'Transaksi berhasil diselesaikan');
+    if ($penjualan->status !== 'OPEN') {
+        return back()->with('errors', 'Transaksi sudah diproses');
     }
+
+    if ($penjualan->itemPenjualan()->count() === 0) {
+        return back()->with('errors', 'Keranjang masih kosong');
+    }
+
+    $total = $penjualan->itemPenjualan()->sum('subtotal');
+
+    $uangDibayar = $request->payment_method === 'CASH'
+        ? (int) $request->uang_dibayar
+        : null;
+
+    if ($request->payment_method === 'CASH' && $uangDibayar < $total) {
+        return back()->withInput()->with('errors', 'Uang yang diberikan kurang dari total pembayaran');
+    }
+
+    DB::transaction(function () use ($penjualan, $total, $uangDibayar, $request) {
+        $penjualan->update([
+            'metode_pembayaran' => $request->payment_method,
+            'total_pembayaran'  => $total,
+            'uang_dibayar'      => $uangDibayar,
+            'status'            => 'COMPLETED'
+        ]);
+    });
+
+    return redirect()->route('penjualan.index')->with('success', 'Transaksi berhasil diselesaikan');
+}
     /**
      * Remove the specified resource from storage.
      */

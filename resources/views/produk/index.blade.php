@@ -46,8 +46,8 @@
 
     <!-- Tabel Data Produk -->
   <div class="row d-flex justify-content-center">
-    @forelse ($products as $product)
-        <div class="col-md-4 col-lg-3 mb-4">
+    @forelse ($products as $product)                        
+        <div class="col-5 col-lg-3 mb-4">
             <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden" style="width: 100%; max-width: 420px;">
                 
                 {{-- Gambar Produk / Fallback --}}

@@ -23,7 +23,7 @@
             <h1 class="h3 fw-bold text-dark mb-1">
                 {{ $mode === 'edit' ? 'Edit Penjualan' : 'Tambah Penjualan' }}
             </h1>
-           </div>
+        </div>
         <div>
             <a href="{{ route('penjualan.index') }}" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2 shadow-sm px-3">
                 <i class="bi bi-arrow-left"></i>
@@ -38,7 +38,7 @@
         <div class="col-md-6">
             <div class="card border-0 shadow-sm rounded-3">
                 <div class="card-body p-3" style="max-height:70vh; overflow:auto">
-                    
+
                     <!-- Form Pencarian Produk -->
                     <div class="mb-3">
                         <form method="GET" action="{{ route('penjualan.create') }}">
@@ -109,51 +109,52 @@
 
         {{-- =================== KERANJANG =================== --}}
         <div class="col-md-6">
-    <div class="card border shadow-sm rounded-3 overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover align-middle mb-0">
-                <thead class="table-light text-secondary">
-                    <tr>
-                        <th scope="col" class="ps-3 border-end">Produk</th>
-                        <th scope="col" class="border-end">Harga</th>
-                        <th scope="col" class="border-end text-center" style="width: 18%;">Qty</th>
-                        <th scope="col" class="border-end">Subtotal</th>
-                        <th scope="col" class="text-center pe-3">Aksi</th>
-                    </tr>
-                </thead>
+            <div class="card border shadow-sm rounded-3 overflow-hidden">
+                <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                    <table class="table table-bordered table-hover align-middle mb-0">
+                        <thead class="table-light text-secondary" style="position: sticky; top: 0; z-index: 1;">
+                            <tr>
+                                <th scope="col" class="ps-3 border-end">Produk</th>
+                                <th scope="col" class="border-end">Harga</th>
+                                <th scope="col" class="border-end text-center" style="width: 18%;">Qty</th>
+                                <th scope="col" class="border-end">Subtotal</th>
+                                <th scope="col" class="text-center pe-3">Aksi</th>
+                            </tr>
+                        </thead>
 
-                <tbody>
-                    @forelse($sale->itemPenjualan as $item)
-                    <tr>
-                        <td class="ps-3 fw-semibold text-dark border-end">{{ $item->produk->nama }}</td>
-                        <td class="text-muted border-end">Rp {{ number_format($item->produk->harga_jual, 0, ',', '.') }}</td>
-                        <td class="text-center fw-semibold border-end">
-                            {{ $item->kuantitas }}
-                        </td>
-                        <td class="fw-semibold text-success border-end">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                        <td class="text-center pe-3">
-                            @can('delete', $item)
-                            <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
-                                @csrf 
-                                @method('DELETE')
-                                <button class="btn btn-danger btn-sm">
-                                    Hapus
-                                </button>
-                            </form>
-                            @endcan
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-4 text-muted">
-                            <p class="mb-0 fs-6 fw-semibold text-secondary">Keranjang kosong</p>
-                            <small>Belum ada produk yang ditambahkan ke keranjang.</small>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                        <tbody>
+                            @forelse($sale->itemPenjualan as $item)
+                            <tr>
+                                <td class="ps-3 fw-semibold text-dark border-end">{{ $item->produk->nama }}</td>
+                                <td class="text-muted border-end">Rp {{ number_format($item->produk->harga_jual, 0, ',', '.') }}</td>
+                                <td class="text-center fw-semibold border-end">
+                                    {{ $item->kuantitas }}
+                                </td>
+                                <td class="fw-semibold text-success border-end">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                                <td class="text-center pe-3">
+                                    @can('delete', $item)
+                                    <form method="POST" action="{{ route('itempenjualan.destroy', $item->id) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-danger btn-sm">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                    @endcan
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-muted">
+                                    <p class="mb-0 fs-6 fw-semibold text-secondary">Keranjang kosong</p>
+                                    <small>Belum ada produk yang ditambahkan ke keranjang.</small>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
                 <!-- Footer Keranjang & Checkout -->
                 <div class="card-footer bg-light border-top p-3">
                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -167,34 +168,91 @@
                         @csrf
                         @method('PUT')
 
-                        <select name="payment_method" class="form-select mb-3">
+                        <select name="payment_method" id="payment_method" class="form-select mb-3" onchange="togglePaymentInput()">
                             <option value="">Pilih Pembayaran</option>
-                            <option value="CASH">Cash</option>
-                            <option value="QRIS">QRIS</option>
+                            <option value="CASH" {{ old('payment_method') === 'CASH' ? 'selected' : '' }}>Cash</option>
+                            <option value="QRIS" {{ old('payment_method') === 'QRIS' ? 'selected' : '' }}>QRIS</option>
                         </select>
+
+                        <!-- Input Cash -->
+                        <div id="cash_input_wrapper" class="mb-3 d-none">
+                            <label class="form-label small text-muted mb-1">Uang Diterima</label>
+                            <input type="number" name="uang_dibayar" id="uang_dibayar" min="0" class="form-control"
+                                   placeholder="Masukkan jumlah uang tunai" value="{{ old('uang_dibayar') }}"
+                                   oninput="hitungKembalian()">
+                            <div class="d-flex justify-content-between mt-2 small">
+                                <span class="text-muted">Kembalian</span>
+                                <span id="kembalian_preview" class="fw-bold text-success">Rp 0</span>
+                            </div>
+                        </div>
+
+                        <!-- Display QRIS Barcode -->
+                        <div id="qris_wrapper" class="mb-3 text-center p-2 border rounded bg-white d-none">
+                            <p class="small text-muted mb-2 fw-semibold">Scan QRIS untuk Pembayaran</p>
+                            <div id="qrcode_barcode" class="d-flex justify-content-center mb-2"></div>
+                            <div class="text-center small text-secondary">
+                                Total: <span class="fw-bold text-dark">Rp {{ number_format($sale->itemPenjualan->sum('subtotal'), 0, ',', '.') }}</span>
+                            </div>
+                        </div>
 
                         <button class="btn btn-success w-100 fw-semibold {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
                             Checkout
                         </button>
                     </form>
-
-                    @can('delete', $sale)
-                        <form action="{{ route('penjualan.destroy', $sale->id) }}"
-                              method="POST"
-                              onsubmit="return confirm('Yakin ingin membatalkan transaksi?')">
-                            @csrf
-                            @method('DELETE')
-
-                            <button class="btn btn-outline-danger w-100 mt-2 {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
-                                Batalkan Transaksi
-                            </button>
-                        </form>
-                    @endcan
                 </div>
             </div>
         </div>
-
     </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    const totalPembayaran = {{ $sale->itemPenjualan->sum('subtotal') }};
+    const saleId = {{ $sale->id }};
+    let qrGenerated = false;
+
+    function togglePaymentInput() {
+        const method = document.getElementById('payment_method').value;
+        const cashWrapper = document.getElementById('cash_input_wrapper');
+        const qrisWrapper = document.getElementById('qris_wrapper');
+
+        // Toggle Cash Input
+        cashWrapper.classList.toggle('d-none', method !== 'CASH');
+        if (method !== 'CASH') document.getElementById('uang_dibayar').value = '';
+
+        // Toggle QRIS Display
+        qrisWrapper.classList.toggle('d-none', method !== 'QRIS');
+
+        if (method === 'QRIS' && !qrGenerated) {
+            generateBarcode();
+            qrGenerated = true;
+        }
+
+        hitungKembalian();
+    }
+
+    function generateBarcode() {
+        const isiQR = `QRIS-DEMO|Transaksi:${saleId}|Total:Rp${totalPembayaran}`;
+
+        new QRCode(document.getElementById('qrcode_barcode'), {
+            text: isiQR,
+            width: 140,
+            height: 140,
+            colorDark: '#000000',
+            colorLight: '#ffffff'
+        });
+    }
+
+    function hitungKembalian() {
+        const bayar = parseInt(document.getElementById('uang_dibayar').value) || 0;
+        const kembalian = bayar - totalPembayaran;
+        const el = document.getElementById('kembalian_preview');
+        el.textContent = 'Rp ' + Math.max(kembalian, 0).toLocaleString('id-ID');
+        el.classList.toggle('text-danger', kembalian < 0);
+        el.classList.toggle('text-success', kembalian >= 0);
+    }
+
+    document.addEventListener('DOMContentLoaded', togglePaymentInput);
+</script>
 
 @endsection

@@ -53,7 +53,7 @@
                     </div>
                     <div class="mb-3">
                         <p class="text-muted small mb-1">Jenis</p>
-                        <p class="fw-semibold mb-0">    
+                        <p class="fw-semibold mb-0">
                             {{ $penjualan->itemPenjualan->pluck('produk.jenis.nama_jenis')->filter()->unique()->implode(', ') ?: '-' }}
                         </p>
                     </div>
@@ -66,6 +66,13 @@
                         </p>
                     </div>
 
+                    @if($penjualan->metode_pembayaran === 'QRIS')
+                    <div class="mb-3 text-center">
+                        <div id="qrcode_detail" class="d-flex justify-content-center my-2"></div>
+                        <small class="text-muted">Dibayar via QRIS</small>
+                    </div>
+                    @endif
+
                     <hr class="text-muted opacity-25">
 
                     <div>
@@ -74,6 +81,24 @@
                             Rp {{ number_format($penjualan->total_pembayaran, 0, ',', '.') }}
                         </h3>
                     </div>
+
+                    @if($penjualan->metode_pembayaran === 'CASH' && !is_null($penjualan->uang_dibayar))
+                        <hr class="text-muted opacity-25">
+
+                        <div class="mb-2">
+                            <p class="text-muted small mb-1">Uang Diberikan</p>
+                            <p class="fw-semibold mb-0">
+                                Rp {{ number_format($penjualan->uang_dibayar, 0, ',', '.') }}
+                            </p>
+                        </div>
+
+                        <div>
+                            <p class="text-muted small mb-1">Kembalian</p>
+                            <p class="fw-bold text-success mb-0">
+                                Rp {{ number_format($penjualan->kembalian, 0, ',', '.') }}
+                            </p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -138,10 +163,24 @@
                         <i class="bi bi-printer"></i>
                         <span>Cetak Struk</span>
                     </a>
+                </div>
             </div>
         </div>
 
     </div>
 </div>
+
+@if($penjualan->metode_pembayaran === 'QRIS')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        new QRCode(document.getElementById('qrcode_detail'), {
+            text: `QRIS-DEMO|Transaksi:{{ $penjualan->id }}|Total:Rp{{ $penjualan->total_pembayaran }}`,
+            width: 150,
+            height: 150
+        });
+    });
+</script>
+@endif
 
 @endsection
