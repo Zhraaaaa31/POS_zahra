@@ -66,10 +66,17 @@
                         </p>
                     </div>
 
+                    {{-- Tampilan Barcode QRIS DANA Lokal --}}
                     @if($penjualan->metode_pembayaran === 'QRIS')
-                    <div class="mb-3 text-center">
-                        <div id="qrcode_detail" class="d-flex justify-content-center my-2"></div>
-                        <small class="text-muted">Dibayar via QRIS</small>
+                    <div class="mb-3 text-center p-2 border rounded bg-white">
+                        <p class="small text-muted mb-2 fw-semibold">Pembayaran via QR DANA</p>
+                        <img src="{{ asset('asset/img/barcode.jpeg') }}" 
+                             alt="QR DANA" 
+                             class="img-fluid rounded border p-1 mb-1" 
+                             style="max-width: 110px;">
+                        <div>
+                            <small class="badge bg-success-subtle text-success">Lunas</small>
+                        </div>
                     </div>
                     @endif
 
@@ -114,7 +121,7 @@
                     <table class="table table-hover align-middle mb-0">
                         <thead class="table-light text-secondary">
                             <tr>
-                                <th class="ps-4" style="width: 5%;">#</th>
+                                <th class="ps-4" style="width: 5%;">No</th>
                                 <th style="width: 35%;">Produk</th>
                                 <th style="width: 15%;">Jenis</th>
                                 <th class="text-center" style="width: 10%;">Qty</th>
@@ -169,18 +176,5 @@
 
     </div>
 </div>
-
-@if($penjualan->metode_pembayaran === 'QRIS')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        new QRCode(document.getElementById('qrcode_detail'), {
-            text: `QRIS-DEMO|Transaksi:{{ $penjualan->id }}|Total:Rp{{ $penjualan->total_pembayaran }}`,
-            width: 150,
-            height: 150
-        });
-    });
-</script>
-@endif
 
 @endsection

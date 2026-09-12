@@ -17,12 +17,19 @@
         </div>
     @endif
 
-    <!-- Header Page & Tombol Tambah -->
+    <!-- Header Page & Tombol Aksi -->
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
         <div>
             <h1 class="h3 fw-bold text-dark mb-1">Daftar Penjualan</h1>
         </div>
-        <div>
+        <div class="d-flex align-items-center gap-2">
+            <!-- Tombol Cetak Rekap Mingguan -->
+            <a href="{{ route('penjualan.rekap') }}" class="btn btn-outline-success d-inline-flex align-items-center gap-2 shadow-sm px-3" target="_blank">
+                <i class="bi bi-printer"></i>
+                <span>Cetak Rekap Mingguan</span>
+            </a>
+
+            <!-- Tombol Tambah Penjualan -->
             <a href="{{ route('penjualan.create') }}" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm px-3">
                 <i class="bi bi-plus-lg"></i>
                 <span>Tambah Penjualan</span>
@@ -101,7 +108,7 @@
                                 </span>
                             @endif
                         </td>
-                                                <td class="text-center pe-4">
+                        <td class="text-center pe-4">
                             <div class="d-inline-flex align-items-center gap-1">
                                <a href="{{ route('penjualan.show', $sale) }}" class="btn btn-sm btn-outline-primary">
                                     Detail
@@ -145,5 +152,14 @@
         @endif
     </div>
 </div>
+
+<!-- Script Auto Open Struk Setelah Checkout -->
+@if(session('print_id'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        window.open("{{ route('penjualan.print', session('print_id')) }}", '_blank');
+    });
+</script>
+@endif
 
 @endsection

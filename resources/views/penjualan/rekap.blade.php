@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struk Penjualan #{{ $penjualan->id }}</title>
+    <title>Rekap Penjualan Mingguan</title>
     <style>
         body {
             font-family: 'Courier New', Courier, monospace;
@@ -17,18 +17,16 @@
             align-items: center;
         }
 
-        /* Container Struk di Tengah Layar */
         .receipt-container {
-            width: 300px;
+            width: 350px;
             background-color: #ffffff;
             padding: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-radius: 4px;
         }
 
-        /* Navigasi Tombol */
         .action-buttons {
-            width: 330px;
+            width: 380px;
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
@@ -49,17 +47,9 @@
             gap: 6px;
         }
 
-        .btn-primary {
-            background-color: #0d6efd;
-            color: white;
-        }
+        .btn-primary { background-color: #0d6efd; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
 
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        /* CSS Khusus Saat Cetak ke Kertas (Printer Termal) */
         @media print {
             .no-print {
                 display: none !important;
@@ -79,59 +69,62 @@
 </head>
 <body onload="window.print()">
 
-    <!-- Tombol Navigasi di Atas Struk (Tengah Layar) -->
+    <!-- Tombol Navigasi (Hanya Muncul di Monitor) -->
     <div class="action-buttons no-print">
         <a href="{{ route('penjualan.index') }}" class="btn btn-secondary">
             &larr; Kembali
         </a>
         <button onclick="window.print()" class="btn btn-primary">
-            🖨️ Cetak Struk
+            🖨️ Cetak Rekap Mingguan
         </button>
     </div>
 
-    <!-- Tampilan Struk Rapi di Tengah -->
+    <!-- Tampilan Struk Rekap Mingguan -->
     <div class="receipt-container">
         <div style="text-align: center;">
             <strong>TOKO FASHION</strong><br>
-            JL. JALAN-JALAN<br>
-            TASIKMALAYA<br>
+            REKAP PENJUALAN MINGGUAN<br>
+            <small style="font-size: 10px;">
+                PERIODE: {{ $startDate->format('d/m/Y') }} - {{ $endDate->format('d/m/Y') }}
+            </small>
         </div>
         <br>
-        WAKTU : {{ $penjualan->created_at->format('d M Y H:i') }}<br>
-        KASIR : {{ strtoupper($penjualan->user->name ?? 'ADMIN') }}<br>
-        #{{ $penjualan->id }}<br>
-        ----------------------------------------<br>
+        TANGGAL CETAK : {{ date('d M Y H:i') }}<br>
+        TOTAL TRANSAKSI: {{ $totalTransaksi }} Transaksi<br>
+        ========================================<br>
 
-        @foreach($penjualan->itemPenjualan as $item)
-            <div><strong>{{ strtoupper($item->produk->nama ?? 'PRODUK') }}</strong></div>
+        <!-- Daftar Ringkas Transaksi -->
+        <strong>DETAIL TRANSAKSI MINGGU INI</strong><br>
+        ----------------------------------------<br>
+        @forelse($penjualan as $p)
             <div style="display: flex; justify-content: space-between;">
-                <span>{{ number_format($item->harga_satuan, 0, ',', '.') }} X{{ $item->kuantitas }}</span>
-                <span>{{ number_format($item->subtotal, 0, ',', '.') }}</span>
+                <span>#{{ $p->id }} | {{ $p->created_at->format('d/m H:i') }} ({{ $p->metode_pembayaran }})</span>
+                <span>Rp {{ number_format($p->total_pembayaran, 0, ',', '.') }}</span>
             </div>
-        @endforeach
+        @empty
+            <div style="text-align: center; color: #6c757d;">Belum ada transaksi minggu ini</div>
+        @endforelse
 
+        ========================================<br>
+        <strong>RINGKASAN PEMBAYARAN</strong><br>
         ----------------------------------------<br>
         <div style="display: flex; justify-content: space-between;">
-            <span>TOTAL</span>
-            <span>RP {{ number_format($penjualan->total_pembayaran, 0, ',', '.') }}</span>
+            <span>TOTAL CASH</span>
+            <span>RP {{ number_format($totalCash, 0, ',', '.') }}</span>
         </div>
         <div style="display: flex; justify-content: space-between;">
-            <span>{{ strtoupper($penjualan->metode_pembayaran) }}</span>
-            <span>RP {{ number_format($penjualan->uang_dibayar ?? $penjualan->total_pembayaran, 0, ',', '.') }}</span>
+            <span>TOTAL QRIS</span>
+            <span>RP {{ number_format($totalQris, 0, ',', '.') }}</span>
         </div>
-        @if($penjualan->metode_pembayaran === 'CASH')
-        <div style="display: flex; justify-content: space-between;">
-            <span>KEMBALIAN</span>
-            <span>RP {{ number_format($penjualan->kembalian, 0, ',', '.') }}</span>
+        ----------------------------------------<br>
+        <div style="display: flex; justify-content: space-between; font-weight: bold;">
+            <span>TOTAL OMSET</span>
+            <span>RP {{ number_format($totalOmset, 0, ',', '.') }}</span>
         </div>
-        @endif
-        <br>
-        JUMLAH ITEM: {{ $penjualan->itemPenjualan->sum('kuantitas') }}<br><br>
+        ========================================<br><br>
 
         <div style="text-align: center;">
-            TERIMAKASIH ATAS KUNJUNGAN NYA<br>
-            BARANG YANG SUDAH DIBELI TIDAK<br>
-            DAPAT DIKEMBALIKAN<br><br>
+            *** LAPORAN REKAP MINGGUAN ***<br>
             POWERED BY POS SYSTEM
         </div>
     </div>

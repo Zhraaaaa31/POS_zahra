@@ -12,13 +12,13 @@ use App\Http\Controllers\PerulanganController;
 use App\Http\Controllers\PercabanganController;
 use App\Http\Controllers\AboutController;
 
-//Route yang bisa diakses ketika user belum login
+// Route yang bisa diakses ketika user belum login
 Route::middleware('guest')->group(function (){
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/auth',[AuthController::class, 'auth'])->name('auth');
- });
+});
 
-//Route yang bisa di akses ketika user sudah login
+// Route yang bisa diakses ketika user sudah login
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -31,17 +31,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/users/edit{user}', [UserController::class, 'edit'])->name('users.edit');
         Route::post('/users/update/{user}', [UserController::class,'update'])->name('users.update');
         Route::delete('/users/destroy/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
 
-        });
-        //produk
-        Route::middleware('role:admin,kasir')->group(function() {
-            Route::resource('/produk', ProdukController::class);
-            Route::resource('/penjualan', PenjualanController::class);
-            Route::resource('/itempenjualan', ItemPenjualanController::class);
-            // Route::resource('/jenis', JenisController::class);
-            Route::resource('jenis', JenisController::class)
+    // Produk, Penjualan, & Jenis
+    Route::middleware('role:admin,kasir')->group(function() {
+        Route::resource('/produk', ProdukController::class);
+
+        // ROUTE KHUSUS (Harus ditaruh SEBELUM Route::resource penjualan)
+        Route::get('/penjualan/rekap-mingguan', [PenjualanController::class, 'rekapMingguan'])->name('penjualan.rekap');
+        Route::get('/penjualan/{id}/print', [PenjualanController::class, 'print'])->name('penjualan.print');
+
+        // ROUTE RESOURCE PENJUALAN
+        Route::resource('/penjualan', PenjualanController::class);
+        
+        Route::resource('/itempenjualan', ItemPenjualanController::class);
+        Route::resource('jenis', JenisController::class)
             ->parameters(['jenis' => 'jenis']);
-            Route::get('/penjualan/{id}/print', [PenjualanController::class, 'print'])->name('penjualan.print');
     });
 });
-

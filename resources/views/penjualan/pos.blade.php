@@ -189,15 +189,19 @@
                             </div>
                         </div>
 
-                        <!-- Display QRIS Barcode -->
-                        <div id="qris_wrapper" class="mb-3 text-center p-2 border rounded bg-white d-none">
-                            <p class="small text-muted mb-2 fw-semibold">Scan QRIS untuk Pembayaran</p>
-                            <div id="qrcode_barcode" class="d-flex justify-content-center mb-2"></div>
-                            <div class="text-center small text-secondary">
-                                Total: <span class="fw-bold text-dark">Rp {{ number_format($sale->itemPenjualan->sum('subtotal'), 0, ',', '.') }}</span>
-                            </div>
-                        </div>
+          <div id="qris_wrapper" class="mb-3 text-center p-3 border rounded bg-white d-none">
+                <p class="small text-muted mb-2 fw-semibold">Scan QR DANA untuk Pembayaran</p>
+                
+                <img src="{{ asset('asset/img/barcode.jpeg') }}" 
+                    alt="QR DANA" 
+                    class="img-fluid rounded mb-2 border p-1" 
+                    style="max-width: 120px;">
 
+                <div class="text-center small text-secondary">
+                    Total Pembayaran: <br>
+                    <span class="fw-bold text-dark fs-6">Rp {{ number_format($sale->itemPenjualan->sum('subtotal'), 0, ',', '.') }}</span>
+                </div>
+            </div>
                         <button class="btn btn-success w-100 fw-semibold {{ $sale->status === 'COMPLETED' ? 'disabled' : '' }}">
                             Checkout
                         </button>

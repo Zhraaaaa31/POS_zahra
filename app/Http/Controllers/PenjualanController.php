@@ -9,6 +9,7 @@ use App\Models\Produk;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreRequest;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class PenjualanController extends Controller
 {
@@ -149,7 +150,7 @@ return view('penjualan.pos', compact('sale', 'products', 'mode'));
         ]);
     });
 
-    return redirect()->route('penjualan.index')->with('success', 'Transaksi berhasil diselesaikan');
+   return redirect()->route('penjualan.print', $penjualan->id);
 }
     /**
      * Remove the specified resource from storage.
@@ -182,8 +183,36 @@ DB::transaction(function () use ($penjualan) {
 }
 public function print(int $id)
 {
-    $sale = Penjualan::with('itemPenjualan.produk')->findOrFail($id);
+    // Ubah $sale jadi $penjualan dan load relasi user sekalian
+    $penjualan = Penjualan::with(['itemPenjualan.produk', 'user'])->findOrFail($id);
 
-    return view('penjualan.print', compact('sale'));
+    return view('penjualan.print', compact('penjualan'));
 }
-}
+
+public function rekapMingguan()
+{
+    // Mengunci rentang waktu dari Hari Senin minggu ini sampai Hari Minggu minggu ini
+    $startDate = Carbon::now()->startOfWeek(); // Senin 00:00:00
+    $endDate   = Carbon::now()->endOfWeek();   // Minggu 23:59:59
+
+    $penjualan = Penjualan::with(['itemPenjualan.produk', 'user'])
+        ->where('status', 'COMPLETED')
+        ->whereBetween('created_at', [$startDate, $endDate])
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    $totalOmset     = $penjualan->sum('total_pembayaran');
+    $totalTransaksi = $penjualan->count();
+    $totalCash      = $penjualan->where('metode_pembayaran', 'CASH')->sum('total_pembayaran');
+    $totalQris      = $penjualan->where('metode_pembayaran', 'QRIS')->sum('total_pembayaran');
+
+    return view('penjualan.rekap', compact(
+        'penjualan',
+        'totalOmset',
+        'totalTransaksi',
+        'totalCash',
+        'totalQris',
+        'startDate',
+        'endDate'
+    ));
+}}
