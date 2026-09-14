@@ -27,7 +27,7 @@
     <div class="row g-4">
         @can('viewAny', App\Models\User::class)
         <div class="col-md-12 mt-4 text-center">
-            <h4 class="fw-bold text-secondary mb-0">Today's Sale</h4>
+            <h4 class="fw-bold text-secondary mb-0">Today's Sales</h4>
         </div>
 
         <div class="col-md-6">
