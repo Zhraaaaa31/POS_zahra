@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 <!-- mengirimkan nilai ke title untuk ditampilkan -->
-@section('title', 'TENTANG TOKO')
+@section('title', 'Tentang toko')
 
 <!-- batas awal isi konten -->
 @section('content')
@@ -18,8 +18,12 @@
                 <div class="card-body m-4">
 
                     <!-- Header Toko -->
-                    <section id="content1" class="jumbotron text-center bg-white p-4 rounded-3 shadow-sm mb-4">
-                        <img src="{{ asset('asset/fashions.png') }}" alt="Zahra Fashion" width="180" class="rounded-circle img-thumbnail mb-3" />
+                  <section id="content1" class="jumbotron text-center bg-white p-4 rounded-3 shadow-sm mb-4">
+                        <img src="{{ asset('asset/fashions.png') }}" 
+                             alt="Zahra Fashion" 
+                             class="rounded-circle img-thumbnail mb-3 d-block mx-auto" 
+                             style="width: 150px; height: 150px; object-fit: cover;" />
+                        
                         <h1 class="h3 fw-bold text-dark mb-1">Zahra Fashion</h1>
                         <p class="lead text-primary fw-semibold mb-0">Butik Fashion Wanita &bull; Tasikmalaya</p>
                     </section>
@@ -96,7 +100,7 @@
                     </div>
 
                     <!-- Kontak & Media Sosial -->
-                    <div class="text-center pt-2">
+                    <!-- <div class="text-center pt-2">
                         <h6 class="fw-bold text-dark mb-3">Hubungi Kami</h6>
                         <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <a href="https://wa.me/6287878090942" target="_blank" class="text-success">
@@ -109,7 +113,7 @@
                                 <i class="bi bi-instagram me-1" style="font-size: 30px;"></i>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
 

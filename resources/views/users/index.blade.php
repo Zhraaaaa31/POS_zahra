@@ -14,7 +14,7 @@
         </div>
         <div>
             <a href="{{ route('admin.users.create') }}" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm px-3">
-                <span> + Create User</span>
+                <span> + Tambah User</span>
             </a>
         </div>
     </div>

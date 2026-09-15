@@ -40,7 +40,7 @@
   height: 55px; 
   width: auto; 
   object-fit: contain; 
-  margin-right: -12px !important;
+  margin-right: -30px !important; /* Tarik tulisan mendekat ke gambar */
   display: block;
 }
 
@@ -52,9 +52,9 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm custom-navbar">
   <div class="container">
-  <a class="navbar-brand text-primary fw-bold fs-4 d-flex align-items-center m-0 p-0" href="{{ route('tentang') }}">
+<a class="navbar-brand text-primary fw-bold fs-4 d-flex align-items-center m-0 p-0" href="{{ route('tentang') }}">
   <img src="{{ asset('asset/fashions.png') }}" alt="Logo" class="navbar-logo-img"> 
-  <span class="lh-1">Zahra <span class="text-primary">Fashion</span></span>
+  <span class="lh-1">Zahra Fashion</span>
 </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -78,9 +78,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link {{ Request::is('penjualan*') ? 'active' : '' }}" href="{{ route('penjualan.index') }}">Penjualan</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link {{ Request::is('about') ? 'active' : '' }}" href="{{ route('about') }}">Tentang</a>
           </li>
           <li class="nav-item">
             <a class="nav-link {{ Request::is('tentang') ? 'active' : '' }}" href="{{ route('tentang') }}">Tentang Toko</a>
