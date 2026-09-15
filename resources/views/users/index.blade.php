@@ -1,10 +1,7 @@
-<!-- memanggil file app.blade.php -->
 @extends('layouts.app')
 
-<!-- mengirimkan nilai ke title untuk ditampilkan -->
-@section('title', 'Users')
+@section('title', 'Produk')
 
-<!-- batas awal isi konten -->
 @section('content')
 
 @include('layouts.navbar')

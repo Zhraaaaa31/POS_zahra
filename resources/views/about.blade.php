@@ -1,4 +1,4 @@
-memanggil file app.blade.php
+<!-- memanggil file app.blade.php -->
 @extends('layouts.app')
 
 <!-- mengirimkan nilai ke title untuk ditampilkan -->

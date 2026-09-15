@@ -27,7 +27,7 @@
     <div class="row g-4">
         @can('viewAny', App\Models\User::class)
         <div class="col-md-12 mt-4 text-center">
-            <h4 class="fw-bold text-secondary mb-0">Today's Sales</h4>
+            <h4 class="fw-bold text-secondary mb-0">Penjualan Hari Ini</h4>
         </div>
 
         <div class="col-md-6">
@@ -67,7 +67,7 @@
         </div>
         
         <div class="col-md-12 mt-4 text-center">
-            <h4 class="fw-bold text-secondary mb-0">Cash & Payment Status</h4>
+            <h4 class="fw-bold text-secondary mb-0">Status Pembayaran</h4>
         </div>
 
         <div class="col-md-6">
@@ -109,7 +109,7 @@
 
         <!-- Critical Inventory Status di Tengah -->
         <div class="col-md-12 mt-4 text-center">
-            <h4 class="fw-bold text-secondary mb-0">Critical Inventory Status</h4>
+            <h4 class="fw-bold text-secondary mb-0">Status Stok Kritis</h4>
         </div>
         
         <div class="col-md-6">
@@ -192,7 +192,7 @@
 
         <!-- Best Seller Produk di Tengah -->
         <div class="col-md-12 mt-4 text-center">
-            <h4 class="fw-bold text-secondary mb-0">Best Seller Produk</h4>
+            <h4 class="fw-bold text-secondary mb-0">Produk Terlaris</h4>
         </div>
         <div class="col-md-12">
             <div class="card border-0 shadow-sm mb-4">

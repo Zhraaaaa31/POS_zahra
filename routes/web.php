@@ -8,9 +8,8 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ItemPenjualanController;
 use App\Http\Controllers\JenisController;
-use App\Http\Controllers\PerulanganController;
-use App\Http\Controllers\PercabanganController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\TentangController;
 
 // Route yang bisa diakses ketika user belum login
 Route::middleware('guest')->group(function (){
@@ -22,6 +21,7 @@ Route::middleware('guest')->group(function (){
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/about', [AboutController::class, 'index'])->name('about');
+    Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::middleware('role:admin')->name('admin.')->group(function () {
