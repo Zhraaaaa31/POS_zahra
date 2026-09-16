@@ -17,20 +17,26 @@ class PenjualanController extends Controller
      * Display a listing of the resource.
      */
 
-public function index(Request $request)
+public function index(SearchRequest $request)
 {
-    $search = $request->search;
+    $user = Auth::user();
+    $keyword = $request->input('search');
 
     $sales = Penjualan::with(['user', 'itemPenjualan.produk'])
-        ->when($search, function ($query) use ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('metode_pembayaran', 'like', "%{$search}%")
-                  ->orWhere('status', 'like', "%{$search}%")
-                  ->orWhereHas('user', function ($q2) use ($search) {
-                      $q2->where('name', 'like', "%{$search}%");
+        // Filter berdasarkan role (menggunakan optional agar tidak error jika role null)
+        ->when(optional($user->role)->name === 'kasir', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+        // Search
+        ->when($keyword, function ($query) use ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('metode_pembayaran', 'like', "%{$keyword}%")
+                  ->orWhere('status', 'like', "%{$keyword}%")
+                  ->orWhereHas('user', function ($q2) use ($keyword) {
+                      $q2->where('name', 'like', "%{$keyword}%");
                   })
-                  ->orWhereHas('itemPenjualan.produk', function ($q3) use ($search) {
-                      $q3->where('nama', 'like', "%{$search}%");
+                  ->orWhereHas('itemPenjualan.produk', function ($q3) use ($keyword) {
+                      $q3->where('nama', 'like', "%{$keyword}%");
                   });
             });
         })

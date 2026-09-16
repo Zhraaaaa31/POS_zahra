@@ -18,7 +18,7 @@
                         @csrf
                         <div class="mb-3">
                             <label for="nama_jenis" class="form-label">Nama Jenis</label>
-                            <input type="text" name="nama_jenis" id="nama_jenis" class="form-control @error('nama_jenis') is-invalid @enderror" value="{{ old('nama_jenis') }}" placeholder="Masukkan nama jenis (misal: Minuman)" required>
+                            <input type="text" name="nama_jenis" id="nama_jenis" class="form-control @error('nama_jenis') is-invalid @enderror" value="{{ old('nama_jenis') }}" placeholder="Masukkan nama jenis (misal: Kemeja)" required>
                             @error('nama_jenis')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
