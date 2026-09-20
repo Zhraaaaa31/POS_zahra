@@ -2,48 +2,88 @@
 
 @section('title', 'Produk')
 
+<style>
+  /* Mengubah tabel menjadi bentuk kartu di layar HP (maksimal lebar 767px) */
+  @media (max-width: 767.98px) {
+    .responsive-table thead {
+      display: none;
+    }
+
+    .responsive-table, 
+    .responsive-table tbody, 
+    .responsive-table tr, 
+    .responsive-table td {
+      display: block;
+      width: 100%;
+    }
+
+    .responsive-table tr {
+      margin-bottom: 1rem;
+      border: 1px solid #dee2e6;
+      border-radius: 0.5rem;
+      background-color: #fff;
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+      padding: 0.5rem;
+    }
+
+    .responsive-table td {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      text-align: right;
+      padding: 0.5rem 0.75rem !important;
+      border-bottom: 1px dashed #e9ecef;
+      word-break: break-word;
+    }
+
+    .responsive-table td:last-child {
+      border-bottom: none;
+    }
+
+    .responsive-table td::before {
+      content: attr(data-label);
+      font-weight: 700;
+      color: #6c757d;
+      text-align: left;
+      padding-right: 1rem;
+    }
+  }
+</style>
+
 @section('content')
 
 @include('layouts.navbar')
 
-<div class="container my-4">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4 pb-3 border-bottom">
-        <div>
-            <h1 class="h3 fw-bold text-dark mb-1">Users</h1>
-           
-        </div>
-        <div>
-            <a href="{{ route('admin.users.create') }}" class="btn btn-primary d-inline-flex align-items-center gap-2 shadow-sm px-3">
-                <span> + Tambah User</span>
-            </a>
-        </div>
+<div class="container my-3 my-md-4">
+    <!-- Header Page -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 fw-bold text-dark mb-0">Users</h1>
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-sm btn-md-md d-inline-flex align-items-center gap-1 shadow-sm px-3">
+            <span>+ Tambah User</span>
+        </a>
     </div>
 
-    <!-- Filter & Form Pencarian -->
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body ">
-            <form action="{{ route('admin.users') }}" method="GET">
-                <div class="input-group">
-                    <input type="text" 
-                           name="search" 
-                           value="{{ request('search') }}" 
-                           class="form-control border-end-0" 
-                           placeholder="Cari berdasarkan nama atau email...">
-                    <button class="btn btn-primary px-4" type="submit">
-                        Cari
-                    </button>
-                    @if(request('search'))
-                        <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary">Reset</a>
-                    @endif
-                </div>
-            </form>
+    <!-- Form Pencarian -->
+    <form action="{{ route('admin.users') }}" method="GET" class="mb-4">
+        <div class="input-group shadow-sm">
+            <input type="text" 
+                   name="search" 
+                   value="{{ request('search') }}" 
+                   class="form-control" 
+                   placeholder="Cari nama atau email...">
+            <button class="btn btn-primary px-3" type="submit">
+                Cari
+            </button>
+            @if(request('search'))
+                <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary px-3">Reset</a>
+            @endif
         </div>
-    </div>
+    </form>
 
     <!-- Tabel Data Users -->
-    <div class="card border-0 shadow-sm overflow-hidden">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
+    <div class="card border-0 bg-transparent bg-md-white shadow-none shadow-md-sm overflow-hidden">
+        <div class="table-responsive-md">
+            <table class="table table-hover align-middle mb-0 responsive-table">
                 <thead class="table-light text-secondary">
                     <tr>
                         <th scope="col" class="ps-4" style="width: 5%;">No</th>
@@ -56,29 +96,30 @@
                 <tbody>
                     @forelse($users as $user)
                     <tr>
-                        <td class="ps-4 text-muted fw-medium">
+                        <td data-label="No" class="ps-md-4 text-muted fw-medium">
                             {{ $users->firstItem() + $loop->index }}
                         </td>
-                        <td class="fw-semibold text-dark">
+                        <td data-label="Nama" class="fw-semibold text-dark">
                             {{ $user->name }}
                         </td>
-                        <td class="text-secondary">
+                        <td data-label="Email" class="text-secondary">
                             {{ $user->email }}
                         </td>
-                        <td>
+                        <td data-label="Role">
                             <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
                                 {{ $user->role->name ?? '-' }}
                             </span>
                         </td>
-                        <td class="text-center pe-4">
-                            <div class="d-inline-flex align-items-center gap-1">
-                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-warning">
+                        <td data-label="Aksi" class="text-center pe-md-4">
+                            <!-- Bagian Aksi yang Dibuat Simetris Rapi -->
+                            <div class="d-inline-flex align-items-center justify-content-end gap-1">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-warning d-inline-flex align-items-center">
                                     Edit
                                 </a>
-                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline">
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline-flex align-items-center m-0">
                                     @csrf 
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin hapus user ini?')">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center" onclick="return confirm('Yakin hapus user ini?')">
                                         Hapus
                                     </button>
                                 </form>
