@@ -7,7 +7,6 @@
 <!-- batas awal isi konten -->
 @section('content')
 
-@include('layouts.navbar')
 
 <div class="container py-5">
     <div class="row justify-content-center">

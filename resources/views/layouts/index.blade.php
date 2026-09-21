@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Jenis Produk')
-@section('content')
+@section('title', 'Users')
 
+@section('content')
 
 <style>
   /* Mengubah tabel menjadi bentuk kartu di layar HP (maksimal lebar 767px) */
@@ -51,100 +51,89 @@
     }
   }
 </style>
-    
-    <!-- Header Page & Tombol Tambah Ringkas Bersebelahan -->
+
+<div class="my-3 my-md-4">
+    <!-- Header Page -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <h1 class="h3 fw-bold text-dark mb-0">Daftar Jenis</h1>
-        </div>
-        <div>
-            @can('create', App\Models\Jenis::class)
-            <a href="{{ route('jenis.create') }}" class="btn btn-primary btn-sm btn-md-md d-inline-flex align-items-center gap-1 shadow-sm px-3">
-                <i class="bi bi-plus-lg"></i>
-                <span>Tambah Jenis</span>
-            </a>
-            @endcan
-        </div>
+        <h1 class="h3 fw-bold text-dark mb-0">Users</h1>
+        <a href="{{ route('admin.users.create') }}" class="btn btn-primary btn-sm btn-md-md d-inline-flex align-items-center gap-1 shadow-sm px-3">
+            <span>+ Tambah User</span>
+        </a>
     </div>
 
-    <!-- Filter & Form Pencarian -->
-    <form action="{{ route('jenis.index') }}" method="GET" class="mb-4">
+    <!-- Form Pencarian -->
+    <form action="{{ route('admin.users') }}" method="GET" class="mb-4">
         <div class="input-group shadow-sm">
             <input type="text" 
                    name="search" 
                    value="{{ request('search') }}" 
                    class="form-control" 
-                   placeholder="Cari berdasarkan nama jenis...">
-            <button class="btn btn-primary px-3 px-md-4" type="submit">
+                   placeholder="Cari nama atau email...">
+            <button class="btn btn-primary px-3" type="submit">
                 Cari
             </button>
             @if(request('search'))
-                <a href="{{ route('jenis.index') }}" class="btn btn-outline-secondary px-3">Reset</a>
+                <a href="{{ route('admin.users') }}" class="btn btn-outline-secondary px-3">Reset</a>
             @endif
         </div>
     </form>
 
-    <!-- Tabel Data Jenis -->
+    <!-- Tabel Data Users -->
     <div class="card border-0 bg-transparent bg-md-white shadow-none shadow-md-sm overflow-hidden">
         <div class="table-responsive-md">
             <table class="table table-hover align-middle mb-0 responsive-table">
                 <thead class="table-light text-secondary">
                     <tr>
-                        <th scope="col" class="ps-4" style="width: 10%;">No</th>
-                        <th scope="col" style="width: 70%;">Nama Jenis</th>
+                        <th scope="col" class="ps-4" style="width: 5%;">No</th>
+                        <th scope="col" style="width: 25%;">Nama</th>
+                        <th scope="col" style="width: 30%;">Email</th>
+                        <th scope="col" style="width: 20%;">Role</th>
                         <th scope="col" class="text-center pe-4" style="width: 20%;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($jenis as $item)
+                    @forelse($users as $user)
                     <tr>
                         <td data-label="No" class="ps-md-4 text-muted fw-medium">
-                            {{ method_exists($jenis, 'firstItem') ? $jenis->firstItem() + $loop->index : $loop->iteration }}
+                            {{ $users->firstItem() + $loop->index }}
                         </td>
-                        <td data-label="Nama Jenis" class="fw-semibold text-dark">
-                            {{ $item->nama_jenis }}
+                        <td data-label="Nama" class="fw-semibold text-dark">
+                            {{ $user->name }}
+                        </td>
+                        <td data-label="Email" class="text-secondary">
+                            {{ $user->email }}
+                        </td>
+                        <td data-label="Role">
+                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle">
+                                {{ $user->role->name ?? '-' }}
+                            </span>
                         </td>
                         <td data-label="Aksi" class="text-center pe-md-4">
-                            <!-- Tombol Aksi Simetris dan Presisi -->
                             <div class="d-inline-flex align-items-center justify-content-end gap-1">
-                                @can('update', $item)
-                                <a href="{{ route('jenis.edit', $item->id) }}" class="btn btn-sm btn-outline-warning d-inline-flex align-items-center">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-warning d-inline-flex align-items-center">
                                     Edit
                                 </a>
-                                @endcan
-
-                                @can('delete', $item)
-                                <form action="{{ route('jenis.destroy', $item->id) }}" method="POST" class="d-inline-flex align-items-center m-0">
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="d-inline-flex align-items-center m-0">
                                     @csrf 
                                     @method('DELETE')
-                                    <button class="btn btn-sm btn-outline-danger d-inline-flex align-items-center" onclick="return confirm('Apakah anda yakin ingin menghapus jenis ini?')">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger d-inline-flex align-items-center" onclick="return confirm('Yakin hapus user ini?')">
                                         Hapus
                                     </button>
                                 </form>
-                                @endcan
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="3" class="text-center py-5 text-muted">
-                            <p class="mb-0 fs-5 fw-semibold text-secondary">Data jenis tidak tersedia.</p>
-                            <small>Belum ada jenis produk yang ditambahkan atau tidak sesuai dengan pencarian.</small>
+                        <td colspan="5" class="text-center py-4 text-muted">
+                            Data user tidak ditemukan.
                         </td>
                     </tr>
-                    @endforelse
+                    @endforelse 
                 </tbody>
             </table>
         </div>
-
-        <!-- Render Link Pagination -->
-        @if(method_exists($jenis, 'hasPages') && $jenis->hasPages())
-        <div class="card-footer bg-white border-top py-3 px-4">
-            {{ $jenis->links() }}
-        </div>
-        @endif
     </div>
-
-
+</div>
 
 @endsection

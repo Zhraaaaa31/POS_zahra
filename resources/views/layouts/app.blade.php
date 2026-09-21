@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- isi title yang kita kirim dari views lain -->
     <title>@yield('title')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])  
 </head>
@@ -13,7 +12,7 @@
     min-height: 100vh;
   }
 
-  /* teks judul & label */
+  /* Teks judul & label */
   .h3.fw-bold,
   h5.text-muted {
     color: #1e3a5f !important;
@@ -53,14 +52,29 @@
   }
 </style>
 <body>
-    <div class="container">
+    <!-- 1. Panggil Navbar -->
+    @include('layouts.navbar')
+
+    <!-- 2. Container Notifikasi Alert & Konten Utama -->
+    <div class="container mt-3">
+        
+        <!-- Notifikasi Alert (Tepat di bawah navbar) -->
         @if(session('success'))
-        <div class="alert alert-success">
-            {{session('success')}}
-            @endif
-        </div>
-        <!-- isi konten yg kita kirim dari views lain -->
-         @yield('content')
+            <div class="alert alert-success alert-dismissible fade show mb-3 shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mb-3 shadow-sm" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <!-- 3. Isi konten dari halaman view -->
+        @yield('content')
     </div>
 </body>
 </html>

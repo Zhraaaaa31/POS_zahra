@@ -2,6 +2,7 @@
 
 @section('title', 'Produk')
 
+@section('content')
 <style>
   /* Menjaga rasio gambar tetap konsisten di layar HP */
   .product-img-wrapper {
@@ -25,20 +26,6 @@
     }
   }
 </style>
-
-@section('content')
-
-@include('layouts.navbar')
-
-<div class="container my-3 my-md-4 px-3">
-    
-    <!-- Notifikasi Sukses / Error -->
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show mb-3 shadow-sm" role="alert">
-            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endif
 
     <!-- Header Page & Tombol Tambah -->
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -167,7 +154,5 @@
         </div>
     </div>
     @endif
-
-</div>
 
 @endsection

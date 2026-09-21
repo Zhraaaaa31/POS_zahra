@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Produk')
-
+@section('content')
 <style>
   /* Mengubah tabel menjadi bentuk kartu di layar HP (maksimal lebar 767px) */
   @media (max-width: 767.98px) {
@@ -50,11 +50,6 @@
   }
 </style>
 
-@section('content')
-
-@include('layouts.navbar')
-
-<div class="container my-3 my-md-4">
     <!-- Header Page -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="h3 fw-bold text-dark mb-0">Users</h1>
@@ -111,7 +106,6 @@
                             </span>
                         </td>
                         <td data-label="Aksi" class="text-center pe-md-4">
-                            <!-- Bagian Aksi yang Dibuat Simetris Rapi -->
                             <div class="d-inline-flex align-items-center justify-content-end gap-1">
                                 <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-sm btn-outline-warning d-inline-flex align-items-center">
                                     Edit
@@ -137,6 +131,6 @@
             </table>
         </div>
     </div>
-</div>
+
 
 @endsection

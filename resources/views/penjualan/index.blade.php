@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Penjualan')
-
+@section('content') 
 <style>
   /* Mengubah tabel menjadi tampilan kartu di layar HP (maksimal lebar 767px) */
   @media (max-width: 767.98px) {
@@ -51,20 +51,15 @@
   }
 </style>
 
-@section('content') 
-
-@include('layouts.navbar') 
-
-<div class="container my-3 my-md-4 px-3">
 
     <!-- Notifikasi Error -->
-    @if(session('errors'))
+    <!-- @if(session('errors'))
         <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-3" role="alert">
             <i class="bi bi-exclamation-triangle-fill me-2"></i>
             {{ session('errors') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    @endif
+    @endif -->
 
     <!-- Header Page & Tombol Aksi Ringkas -->
     <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-2 mb-3 pb-2 border-bottom">
@@ -200,7 +195,7 @@
         </div>
         @endif
     </div>
-</div>
+
 
 <!-- Script Auto Open Struk Setelah Checkout -->
 @if(session('print_id'))
