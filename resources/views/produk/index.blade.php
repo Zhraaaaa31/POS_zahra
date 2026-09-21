@@ -46,7 +46,7 @@
         @can('create', App\Models\Produk::class)
         <a href="{{ route('produk.create') }}" class="btn btn-primary btn-sm d-inline-flex align-items-center gap-1 shadow-sm px-2 px-md-3">
             <i class="bi bi-plus-lg"></i>
-            <span>Tambah</span>
+            <span>Tambah Produk</span>
         </a>
         @endcan
     </div>
