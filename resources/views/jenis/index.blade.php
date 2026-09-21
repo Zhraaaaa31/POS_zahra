@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('title', 'Jenis Produk')
 @section('content')
 

@@ -4,7 +4,6 @@
 
 @section('content')
 
-@include('layouts.navbar')
 
 
 <form action="{{ route('produk.store') }}" method="POST" enctype="multipart/form-data">
