@@ -1,80 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title')</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])  
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@yield('title', 'Point of Sale') - Aplikasi Kasir</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    @stack('styles')
 </head>
-<style>
-  body {
-    background: linear-gradient(135deg, #eef2f7 0%, #e4eaf1 50%, #dde5ee 100%);
-    min-height: 100vh;
-  }
 
-  /* Teks judul & label */
-  .h3.fw-bold,
-  h5.text-muted {
-    color: #1e3a5f !important;
-  }
+<body class="bg-light text-dark">
 
-  h4.fw-bold.text-secondary {
-    color: #2c4a6e !important;
-  }
-
-  .border-bottom {
-    border-color: rgba(30, 58, 95, 0.15) !important;
-  }
-
-  .card {
-    border-radius: .75rem;
-    border: none;
-  }
-
-  .card-stat {
-    border-left: 4px solid #3b6ea5;
-  }
-
-  .icon-shape {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: .65rem;
-    background: #eaf1fa;
-    color: #3b6ea5;
-  }
-
-  .table thead {
-    background: #f4f7fa;
-    color: #475569;
-  }
-</style>
-<body>
-    <!-- 1. Panggil Navbar -->
+    <!-- Memanggil Navbar Komponen -->
     @include('layouts.navbar')
 
-    <!-- 2. Container Notifikasi Alert & Konten Utama -->
-    <div class="container mt-3">
-        
-        <!-- Notifikasi Alert (Tepat di bawah navbar) -->
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show mb-3 shadow-sm" role="alert">
+    <!-- Main Content Container -->
+    <main class="container my-3 my-md-4">
+
+        <!-- Global Alert Notifikasi (Success / Error / Warning) -->
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 mb-3" role="alert">
                 <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        @if(session('error'))
-            <div class="alert alert-danger alert-dismissible fade show mb-3 shadow-sm" role="alert">
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0 mb-3" role="alert">
                 <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        <!-- 3. Isi konten dari halaman view -->
+        @if (session('warning'))
+            <div class="alert alert-warning alert-dismissible fade show shadow-sm border-0 mb-3" role="alert">
+                <i class="bi bi-exclamation-circle-fill me-2"></i> {{ session('warning') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <!-- Tempat Menyisipkan Konten (Users, Jenis, Produk, Penjualan, dll) -->
         @yield('content')
-    </div>
+
+    </main>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    @stack('scripts')
 </body>
 </html>
