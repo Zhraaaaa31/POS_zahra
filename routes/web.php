@@ -9,6 +9,7 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ItemPenjualanController;
 use App\Http\Controllers\JenisController;
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\RekapController;
 use App\Http\Controllers\TentangController;
 
 // Route yang bisa diakses ketika user belum login
@@ -40,7 +41,7 @@ Route::middleware('auth')->group(function () {
         // ROUTE KHUSUS (Harus ditaruh SEBELUM Route::resource penjualan)
         Route::get('/penjualan/rekap-mingguan', [PenjualanController::class, 'rekapMingguan'])->name('penjualan.rekap');
         Route::get('/penjualan/{id}/print', [PenjualanController::class, 'print'])->name('penjualan.print');
-
+        Route::get('/laporan', [RekapController::class, 'rekapMingguan'])->name('laporan');
         // ROUTE RESOURCE PENJUALAN
         Route::resource('/penjualan', PenjualanController::class);
         

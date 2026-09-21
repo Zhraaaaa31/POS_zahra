@@ -139,6 +139,9 @@
             <a class="nav-link {{ Request::is('penjualan*') ? 'active' : '' }}" href="{{ route('penjualan.index') }}">Penjualan</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link {{ Request::is('laporan*') ? 'active' : '' }}" href="{{ route('laporan') }}">Laporan</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link {{ Request::is('tentang*') ? 'active' : '' }}" href="{{ route('tentang') }}">Tentang Toko</a>
           </li>
         </ul>

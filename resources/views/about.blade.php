@@ -17,20 +17,13 @@
                 <!-- Card Utama -->
                 <div class="card shadow-sm border-0 ">
                     <div class="card-body m-4">
-                        
-                        <!-- Header Profil -->
-                        <!-- <div class="text-center mb-4">
-                            <div class="avatar-icon mb-3">
-                                <i class="bi bi-person-circle display-1 text-primary"></i>
-                            </div>
-                            <h2 class="fw-bold mb-1">Zahra Afifah Hifdillah</h2>
-                            <p class="text-muted fw-medium mb-0">
-                                <i class="bi bi-mortarboard-fill me-1 text-primary"></i>
-                                Kelas 12 PPLG 2 -  SMKN 4 Tasikmalaya
-                            </p>
-                        </div> -->
+
                         <section id="content1" class="jumbotron text-center bg-white p-4 rounded-3 shadow-sm mb-4">
-                            <img src="{{ asset('asset/biru.jpeg') }}" alt="Zahra Afifah Hifdillah" width="180" class="rounded-circle img-thumbnail mb-3" />
+                            <img src="{{ asset('asset/biru.jpeg') }}" 
+                             alt="Zahra" 
+                             class="rounded-circle img-thumbnail mb-3 d-block mx-auto" 
+                             style="width: 150px; height: 150px; object-fit: cover;" />
+                        
                             <h1 class="h3 fw-bold text-dark mb-1">Zahra Afifah Hifdillah</h1>
                             <p class="lead text-primary fw-semibold mb-0">Kelas 12 PPLG 2 &bull; SMKN 4 Tasikmalaya</p>
                         </section>
