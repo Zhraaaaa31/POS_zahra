@@ -1,5 +1,5 @@
 <!-- memanggil file app.blade.php -->
-@extends('layouts.app')
+
 
 <!-- mengirim nilai ke title untuk di tampilkan -->
 @section('title', 'Login POS')
