@@ -124,11 +124,11 @@
           <li class="nav-item">
             <a class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
           </li>
-          @if(Auth::check() && Auth::user()->role && Auth::user()->role->name === 'admin')
-          <li class="nav-item">
-            <a class="nav-link {{ Request::is('admin/users*') ? 'active' : '' }}" href="{{ route('admin.users') }}">Pengguna</a>
-          </li>
-          @endif
+         @if(Auth::check() && Auth::user()->role && Auth::user()->role->name === 'admin')
+        <li class="nav-item">
+          <a class="nav-link {{ Request::is('users*') ? 'active' : '' }}" href="{{ route('admin.users') }}">Pengguna</a>
+        </li>
+        @endif
           <li class="nav-item">
             <a class="nav-link {{ Request::is('jenis*') ? 'active' : '' }}" href="{{ route('jenis.index') }}">Jenis</a>
           </li>

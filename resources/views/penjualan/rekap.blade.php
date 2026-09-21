@@ -19,18 +19,22 @@
 
         .receipt-container {
             width: 350px;
+            max-width: 90vw; /* Menyesuaikan dengan layar HP agar tidak jebol ke samping */
             background-color: #ffffff;
             padding: 15px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             border-radius: 4px;
+            box-sizing: border-box;
         }
 
         .action-buttons {
-            width: 380px;
+            width: 350px;
+            max-width: 90vw; /* Lebar tombol disesuaikan dengan lebar struk */
             margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             gap: 10px;
+            box-sizing: border-box;
         }
 
         .btn {
@@ -63,6 +67,7 @@
                 box-shadow: none;
                 padding: 0;
                 width: 100%;
+                max-width: 100%;
             }
         }
     </style>
